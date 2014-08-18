@@ -1,0 +1,31 @@
+<h1> Tentamen evalueren (<?php echo $examCode; ?>)</h1> <br />
+    
+    <form method="POST" enctype="multipart/form-data">
+
+        <div class="row-cijfer">
+        <label for="cijfer" style="display:inline-block;width:150px;">Cijfer:</label>
+        <select name="cijfer">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        </div>
+
+        <div class="evaluatie-row">
+        <label for="evaluatie" style="display:inline-block;width:150px;">Evaluatie:</label>
+        <input type="file" name="evaluatie" value=""/>
+        </div>
+        
+        
+        
+        <br />
+        
+        <div class="row-verzenden">
+        <label for="verzenden" style="display:inline-block;width:150px;"> </label>
+        <button type="submit">Verzenden</button>
+        </div>
+        
+</form>
+

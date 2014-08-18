@@ -1,0 +1,74 @@
+<?php
+session_start();
+?>
+
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>Studievolg</title>
+	<link media="all" rel="stylesheet" type="text/css" href="/assets/css/all.css" />
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="js/jquery-1.7.2.min.js"><\/script>');</script>
+	<script type="text/javascript" src="/assets/js/jquery.main.js"></script>
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+	<div id="wrapper">
+		<div id="content">
+			<div class="c1">
+				<?php if($_SESSION['user'] instanceof \Studievolg\Model\Gebruiker) : ?>
+				<div class="controls">
+					<nav class="links">
+						<ul>
+							<li><a href="/docent/overviewexam"><i class="fa-list-ol fa fa-lg"></i> Tentamens</a></li>
+                            <li><a href="/docent/createexam"><i class="fa-list-ol fa fa-lg"></i> Tentamen invoeren</a></li>
+						</ul>
+					</nav>
+					<div class="profile-box">
+						<span class="profile">
+							<span class="section">
+								<!--img class="image" src="/assets/images/img1.png" alt="image description" width="26" height="26" /-->
+								<span class="text-box">
+									
+									Welkom
+									<strong class="name">
+										<?php echo $_SESSION['user']->getVoornaam(), " ", $_SESSION['user']->getTussenvoegsel(), " ", $_SESSION['user']->getAchternaam(); ?>
+									</strong>
+								</span>
+							</span>
+							<!--<a href="#" class="opener">opener</a>-->
+						</span>
+						<a href="/uitloggen" class="btn-on">Uitloggen</a>
+					</div>
+				</div>
+				<?php endif; ?>
+				<div class="tabs">
+					<div id="tab-1" class="tab">
+						<article>
+							<ul class="states">
+								<?php if(array_key_exists('error', $_SESSION)): ?>
+									<li class="error"><?php echo $_SESSION['error']; ?></li>
+									<?php unset($_SESSION['error']); ?>
+								<?php endif; ?>
+								<?php if(array_key_exists('warning', $_SESSION)): ?>
+									<li class="warning"><?php echo $_SESSION['warning']; ?></li>
+									<?php unset($_SESSION['warning']); ?>
+								<?php endif; ?>
+								<?php if(array_key_exists('success', $_SESSION)): ?>
+									<li class="succes"><?php echo $_SESSION['success']; ?></li>
+									<?php unset($_SESSION['success']); ?>
+								<?php endif; ?>
+							</ul>
+							<div class="text-section">
+								<?php echo $content; ?>
+							</div>
+							
+						</article>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>

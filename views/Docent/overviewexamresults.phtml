@@ -1,0 +1,115 @@
+<h1>Invoeren cijfers</h1>
+<br />
+
+<table>
+    <tr>
+        <td width="120"><b>Opgesteld door:</b></td>
+        <td width="200"><?php
+            $gebruiker  = $tentamen->getGebruiker();
+            $naam       = $gebruiker->getVoornaam() . " " . $gebruiker->getTussenvoegsel() . " " .$gebruiker->getAchternaam();
+            
+            echo $naam;
+        ?></td>
+    </tr>
+    <tr>
+        <td><b>Tentamencode:</b></td>
+        <td><?php echo $tentamen->getCode(); ?></td>
+    </tr>
+    <tr>
+        <td><b>Vak:</b></td>
+        <td><?php echo $tentamen->getVak(); ?></td>
+    </tr>
+    <tr>
+        <td><b>Periode:</b></td>
+        <td><?php echo $tentamen->getPeriode(); ?></td>
+    </tr>
+</table>
+
+<br />
+<br />
+
+<div style="width : 1000px;">
+    <form name="forminputresults" method="POST">
+        <!-- Loop through the planningen -->
+        <?php
+            $count  = 0;
+            
+            foreach ($planning as $key => $value){
+                ?>
+                    <!-- Inschrijvingen voor planning 1 -->
+                    <div style="float: left; width: 500px;">
+                        <h1>Planning <?php echo $count + 1; ?></h1>
+                        <table>
+                            <tr>
+                                <td width="130"><b>Datum</b></td>
+                                <td><?php echo date("d-m-Y H:i:s", strtotime($planning[$count]["planning"]->getDatumtijd())); ?></td>
+                            </tr>
+                            <tr>
+                                <td><b>Aantal studenten</b></td>
+                                <td><?php echo count($planning[$count]["inschrijvingen"]); ?></td>
+                            </tr>
+                        </table>
+                        
+                        <br />
+                        <br />
+                        
+                        <table>
+                            <tr>
+                                <td width="180"><b>Student</b></td>
+                                <td width="70"><b>Cijfer</b></td>
+                                <td width="100"><b>Beoordeling</b></td>
+                            </tr>
+                            
+                            <!-- Loop through the inschrijvingen from this planning -->
+                            <?php
+                            foreach($planning[$count]["inschrijvingen"] as $value){
+                                // Get the gebruiker and planning
+                                $gebruiker  = $value->getGebruiker();
+                                $cplanning  = $planning[$count]["planning"];
+
+                                $naam = $gebruiker->getVoornaam() . " " . 
+                                        $gebruiker->getTussenvoegsel() . " " .
+                                        $gebruiker->getAchternaam();
+                                
+                                // Check the attendance of the student
+                                if ($value->getAanwezig() == null || $value->getAanwezig() == 0){
+                                ?>
+                                    <tr class="tr_no_attendance">
+                                        <td><?php echo $naam; ?></td>
+                                        <td>-</td>
+                                        <td><i>Niet aanwezig</i></td>
+                                    </tr>
+                                <?php
+                                // Student did attend the tentamen
+                                } else {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $naam; ?></td>
+                                        <td><?php echo $value->getCijfer(); ?></td>
+                                        <td>
+                                            <?php 
+                                            if ($value->getBeoordeling() == 1){
+                                                echo "Voldoende";
+                                            } else {
+                                                echo "Onvoldoende";
+                                            }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                            }
+                            ?>
+                        </table>
+                    </div>
+                <?php
+                
+                $count++;
+            }
+            
+        ?>
+
+        <div style="clear: both;"></div>
+        <br />
+    </form>
+</div>

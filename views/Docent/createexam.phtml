@@ -1,0 +1,41 @@
+<h1> Tentamen invoeren </h1> <br />
+    
+    <form method="POST">
+        
+        <div class="tentamencode-row">
+        <label for="tentamencode" style="display:inline-block;width:150px;">Tentamencode:</label>
+        <input type="text" value="<?php echo $input['tentamencode']; ?>" name="tentamencode"/>
+        </div>
+        
+        <div class="row-vak">
+        <label for="vak" style="display:inline-block;width:150px;">Vak:</label>
+        <input type="text" value="<?php echo $input['vak']; ?>" name="vak"/>
+        </div>
+        
+        <div class="row-periode">   
+        <label for="periode" style="display:inline-block;width:150px;">Periode:</label>
+        <input type="text" value="<?php echo $input['periode']; ?>" name="periode"/>
+        </div>  
+         
+        <div class="row-aantal_studenten">    
+        <label for="aantal_studenten" style="display:inline-block;width:150px;">Aantal Studenten:</label>
+        <input type="text" value="<?php echo $input['aantal_studenten']; ?>" name="aantal_studenten"/> <br /> 
+        </div>
+        
+        <div class="row-computerlokaal">   
+        <label for="computerlokaal" style="display:inline-block;width:150px;"> </label>
+        <input type="checkbox"<?php echo (isset($input['computerlokaal']))?' checked="checked" ':''; ?>name="computerlokaal" value="Ja"/>Computerlokaal ?<br />
+        </div>
+        
+        <div class="row-surviellant">
+        <label for="surveillant" style="display:inline-block;width:150px;"> </label>
+        <input type="checkbox"<?php echo (isset($input['surveillant']))?' checked="checked" ':''; ?> name="surveillant" value="Ja"/>Surveillant ?<br />
+        </div> <br />
+        
+        <div class="row-verzenden">
+        <label for="verzenden" style="display:inline-block;width:150px;"> </label>
+        <button type="submit">Verzenden</button>
+        </div>
+        
+</form>
+

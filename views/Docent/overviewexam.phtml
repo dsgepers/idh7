@@ -1,0 +1,89 @@
+<h1>Tentamen overzicht</h1>
+<br />
+
+<table class="table_overview_exam">
+    <tr>
+        <th width="200" align="left">Code</th>
+        <th width="200" align="left">Periode</th>
+        <th width="200" align="left">Vak</th>
+        <th width="300" align="left">Status</th>
+        <th width="200" align="left">Cijfers invoeren</th>
+        <th width="200" align="left">Evalueren</th>
+    </tr>
+
+    <?php
+    // Controleer of er genoeg tentamens zijn
+    if (count($tentamens) > 0){
+        // Loop through the exams
+        foreach ($tentamens as $key => $tentamen){
+        ?>
+            <tr>
+                <td><?php echo $tentamen["tentamen"]->getCode(); ?></td>
+                <td><?php echo $tentamen["tentamen"]->getPeriode(); ?></td>
+                <td><?php echo $tentamen["tentamen"]->getVak(); ?></td>
+                <td><?php echo $tentamen["status"]["desc"]; ?></td>
+                <td><?php
+                    if ($tentamen["status"]["code"] == 2){
+                        ?><a href="/docent/inputexamresult/<?php echo htmlentities($tentamen["tentamen"]->getCode()); ?>">
+                            Cijfers invoeren
+                        </a><?php
+                    } else if ($tentamen["status"]["code"] == 4){
+                        ?><a href="/docent/overviewexamresult/<?php echo htmlentities($tentamen["tentamen"]->getCode()); ?>">
+                            Toon cijfers
+                        </a><?php
+                    } else {
+                        echo "-";
+                    }
+                ?></td>
+                <td><?php
+                    $evaluaties = \Studievolg\Model\Evaluatie::getByTentamenCode($tentamen['tentamen']->getCode());
+                    $numEvals = count($evaluaties);
+                    if(\Studievolg\Model\Evaluatie::findByTentamenCodeAndUserId($tentamen['tentamen']->getCode(), $_SESSION['user']->getID()) instanceof \Studievolg\Model\Evaluatie) {
+                        if($numEvals >= 5) {
+                            $cijfer = 0;
+                            foreach($evaluaties as $evaluatie)
+                                $cijfer += $evaluatie->getCijfer();
+                            $cijfer = round($cijfer / count($evaluaties), 2);
+                            echo "Tentamen geëvalueerd.
+                            <br />Aantal evaluaties: {$numEvals}
+                            <br/> Gemiddeld Cijfer: {$cijfer}"; 
+                        } else {
+                            echo "[{$numEvals}/5] - Wacht op evaluaties"; 
+                        }
+                    } elseif ($tentamen["status"]["code"] == 4){
+                        ?><a href="/docent/evaluate/<?php echo htmlentities($tentamen["tentamen"]->getCode()); ?>">
+                            <?php echo "[{$numEvals}/5] - Evalueer"; ?>
+                        </a><?php
+                    } else {
+                        echo "-";
+                    }
+                ?></td>
+            </tr>
+        <?php
+        
+            // Check if the exam has been planned, and show the rosters if done
+            if ($tentamen["status"]["code"] == 3){
+                ?>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                        <td><b>Planning 1: <?php echo $tentamen["status"]["planning1"]; ?></b></td>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                        <td><b>Planning 2: <?php echo $tentamen["status"]["planning2"]; ?></b></td>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                <?php
+            }
+        
+        }
+    } else {
+        ?>
+            <tr>
+                <td colspan="6">Er zijn geen tentamens beschikbaar</td>
+            </tr>
+        <?php
+    }
+    ?>
+</table>

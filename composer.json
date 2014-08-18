@@ -1,0 +1,19 @@
+{
+    "name": "idh7/hogeschool",
+    "description": "Project Hogeschool voor IDH7",
+    "authors": [
+        {
+            "name": "Dennis Schepers",
+            "email": "d.schepers@mkbsem.nl"
+        }
+    ],
+    "require": {
+        "codeguy/upload": "dev-develop",
+        "swiftmailer/swiftmailer": "5.1.*@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "Studievolg": ""
+        }
+    }
+}
